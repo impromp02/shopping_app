@@ -7,7 +7,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Product(:company, :imageUrl, :id, :sizes, :title, :price) = product;
+    final Product(:imageUrl, :title, :price) = product;
     return Container(
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

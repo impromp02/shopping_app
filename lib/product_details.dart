@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/global_constants.dart';
 
-class ProdcutDetails extends StatelessWidget {
+class ProdcutDetails extends StatefulWidget {
   final Product product;
   const ProdcutDetails({super.key, required this.product});
 
+  @override
+  State<ProdcutDetails> createState() => _ProdcutDetailsState();
+}
+
+class _ProdcutDetailsState extends State<ProdcutDetails> {
+  late int selectedSize = widget.product.sizes[0];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +21,7 @@ class ProdcutDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            product.title,
+            widget.product.title,
             style: const TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
@@ -24,7 +30,7 @@ class ProdcutDetails extends StatelessWidget {
           const Spacer(),
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Image.asset(product.imageUrl),
+            child: Image.asset(widget.product.imageUrl),
           ),
           const Spacer(
             flex: 2,
@@ -41,7 +47,7 @@ class ProdcutDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '${product.price}',
+                  '${widget.product.price}',
                   style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -54,18 +60,27 @@ class ProdcutDetails extends StatelessWidget {
                   height: 60,
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: product.sizes.length,
+                      itemCount: widget.product.sizes.length,
                       itemBuilder: (context, index) {
-                        final currentSize = product.sizes[index];
+                        final currentSize = widget.product.sizes[index];
                         return Padding(
                           padding: const EdgeInsets.all(6),
-                          child: Chip(
-                            label: Text(currentSize.toString()),
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.all(8),
-                            shape: RoundedRectangleBorder(
-                                side: const BorderSide(),
-                                borderRadius: BorderRadius.circular(10)),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedSize = currentSize;
+                              });
+                            },
+                            child: Chip(
+                              label: Text(currentSize.toString()),
+                              backgroundColor: selectedSize == currentSize
+                                  ? Colors.yellow.shade600
+                                  : Colors.white,
+                              padding: const EdgeInsets.all(8),
+                              shape: RoundedRectangleBorder(
+                                  side: const BorderSide(),
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
                           ),
                         );
                       }),
@@ -73,22 +88,25 @@ class ProdcutDetails extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow.shade800,
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                      ),
+                ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.shopping_cart,
+                    size: 18,
+                    color: Colors.black,
+                  ),
+                  label: const Text(
+                    'Add to Cart',
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.yellow.shade600,
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
                     ),
-                    onPressed: () {},
-                    child: const Text(
-                      'Add To Cart',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ))
+                  ),
+                  onPressed: () {},
+                )
               ],
             ),
           ),

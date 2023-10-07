@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/global_constants.dart';
 import 'package:shopping_app/home.dart';
-import 'package:shopping_app/product_details.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,9 +29,7 @@ class MyApp extends StatelessWidget {
             elevation: 0,
             backgroundColor: Colors.transparent),
       ),
-      home: ProdcutDetails(
-        product: products[0],
-      ),
+      home: const Home(),
     );
   }
 }
