@@ -15,6 +15,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        iconSize: 32,
         currentIndex: currentPage,
         selectedFontSize: 0,
         unselectedFontSize: 0,
@@ -28,7 +29,6 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              size: 36,
             ),
             label: '',
           ),

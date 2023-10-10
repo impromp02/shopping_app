@@ -15,6 +15,23 @@ class Product {
       required this.sizes});
 }
 
+class CartItem {
+  final String id;
+  final String title;
+  final double price;
+  final String imageUrl;
+  final String company;
+  final int size;
+
+  CartItem(
+      {required this.id,
+      required this.title,
+      required this.price,
+      required this.imageUrl,
+      required this.company,
+      required this.size});
+}
+
 const products = [
   Product(
     id: '0',

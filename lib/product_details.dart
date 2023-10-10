@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopping_app/cart_model_provider.dart';
 import 'package:shopping_app/global_constants.dart';
 
 class ProdcutDetails extends StatefulWidget {
@@ -11,6 +13,8 @@ class ProdcutDetails extends StatefulWidget {
 
 class _ProdcutDetailsState extends State<ProdcutDetails> {
   late int selectedSize = widget.product.sizes[0];
+  final cartButtonState = MaterialStatesController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,9 +32,12 @@ class _ProdcutDetailsState extends State<ProdcutDetails> {
             ),
           ),
           const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Image.asset(widget.product.imageUrl),
+          Expanded(
+            flex: 6,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Image.asset(widget.product.imageUrl),
+            ),
           ),
           const Spacer(
             flex: 2,
@@ -105,7 +112,19 @@ class _ProdcutDetailsState extends State<ProdcutDetails> {
                       borderRadius: BorderRadius.circular(40),
                     ),
                   ),
-                  onPressed: () {},
+                  statesController: cartButtonState,
+                  onPressed: () {
+                    Provider.of<CartModel>(context, listen: false).add(
+                      CartItem(
+                          id: widget.product.id,
+                          title: widget.product.title,
+                          price: widget.product.price,
+                          imageUrl: widget.product.imageUrl,
+                          company: widget.product.company,
+                          size: selectedSize),
+                    );
+                    cartButtonState.update(MaterialState.disabled, true);
+                  },
                 )
               ],
             ),
